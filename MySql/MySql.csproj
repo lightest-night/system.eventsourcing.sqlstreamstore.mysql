@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <AssemblyName>LightestNight.System.EventSourcing.SqlStreamStore.MySql</AssemblyName>
+        <RootNamespace>LightestNight.System.EventSourcing.SqlStreamStore.MySql</RootNamespace>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>LightestNight.System.EventSourcing.SqlStreamStore.MySql</PackageId>
+        <Authors>James Woodley</Authors>
+        <Company>LightestNight Ltd</Company>
+        <Title>LightestNight :: System :: Event Sourcing :: Sql Stream Store :: MySql</Title>
+        <Description>The libraries for using the MySql implementation of Sql Stream Store.</Description>
+        <PackageTags>lightestnight;system;infrastructure;event;event sourcing;domain driven design;cqrs;sql stream store;mysql</PackageTags>
+        <Version>1.0.0</Version>
+        <PackageVersion>1.0.0</PackageVersion>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <FileVersion>1.0.0</FileVersion>
+        <InformationalVersion>1.0.0</InformationalVersion>
+        <PackageIcon>icon.jpeg</PackageIcon>
+        <RepositoryUrl>https://github.com/lightestnight/system.eventsourcing.sqlstreamstore.mysql</RepositoryUrl>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="LightestNight.System.EventSourcing.SqlStreamStore" Version="1.0.22" />
+      <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0" />
+      <PackageReference Include="SqlStreamStore.MySql" Version="1.2.0-beta.8" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\icon.jpeg">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+
+</Project>
