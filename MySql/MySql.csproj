@@ -34,7 +34,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="LightestNight.System.EventSourcing.SqlStreamStore" Version="1.0.22" />
+      <PackageReference Include="LightestNight.System.EventSourcing.SqlStreamStore" Version="2.0.1-alpha.1" />
       <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0" />
       <PackageReference Include="SqlStreamStore.MySql" Version="1.2.0-beta.8" />
     </ItemGroup>
