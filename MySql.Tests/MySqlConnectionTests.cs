@@ -8,14 +8,14 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql.Tests
     public class MySqlConnectionTests
     {
         private readonly MySqlEventSourcingOptions _options;
-        private readonly MySqlConnection _sut;
+        private readonly MySqlConnectionBuilder _sut;
 
         public MySqlConnectionTests()
         {
             var fixture = new Fixture();
             _options = fixture.Build<MySqlEventSourcingOptions>().Create();
             
-            _sut = new MySqlConnection(Options.Create(_options));
+            _sut = new MySqlConnectionBuilder(Options.Create(_options));
         }
 
         [Fact]

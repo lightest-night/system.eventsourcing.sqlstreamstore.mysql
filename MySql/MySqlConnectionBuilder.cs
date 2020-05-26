@@ -5,11 +5,11 @@ using MySql.Data.MySqlClient;
 
 namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
 {
-    public class MySqlConnection
+    public class MySqlConnectionBuilder
     {
         private readonly MySqlEventSourcingOptions _options;
 
-        public MySqlConnection(IOptions<MySqlEventSourcingOptions> options)
+        public MySqlConnectionBuilder(IOptions<MySqlEventSourcingOptions> options)
         {
             _options = options.ThrowIfNull().Value;
         }

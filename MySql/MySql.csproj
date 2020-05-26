@@ -27,14 +27,16 @@
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+      <NoWarn>1701;1702;CA1303</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+      <NoWarn>1701;1702;CA1303</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="LightestNight.System.EventSourcing.SqlStreamStore" Version="2.0.1-alpha.1" />
+      <PackageReference Include="LightestNight.System.EventSourcing.SqlStreamStore" Version="2.0.6" />
       <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0" />
       <PackageReference Include="SqlStreamStore.MySql" Version="1.2.0-beta.8" />
     </ItemGroup>
@@ -44,6 +46,15 @@
             <Pack>True</Pack>
             <PackagePath></PackagePath>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Scripts\CreateSchema.sql" />
+      <EmbeddedResource Include="Scripts\CreateSchema.sql" />
+      <None Remove="Scripts\GetCheckpoint.sql" />
+      <EmbeddedResource Include="Scripts\GetCheckpoint.sql" />
+      <None Remove="Scripts\SetCheckpoint.sql" />
+      <EmbeddedResource Include="Scripts\SetCheckpoint.sql" />
     </ItemGroup>
 
 </Project>
