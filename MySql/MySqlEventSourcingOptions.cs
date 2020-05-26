@@ -11,7 +11,7 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
 
         public string Server { get; set; } = string.Empty;
 
-		public uint Port { get; set; }
+        public uint Port { get; set; } = 3306;
 
 		public string UserId { get; set; } = string.Empty;
 
