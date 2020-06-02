@@ -29,14 +29,14 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints
         public async Task<long?> GetGlobalCheckpoint(CancellationToken cancellationToken = default)
         {
             _logger.LogTrace(new EventId(3, "Get Checkpoint"),
-                $"Getting Checkpoint with Id '{EventSourcing.Constants.GlobalCheckpointId}'");
+                $"Getting Checkpoint with Id '{Constants.GlobalCheckpointId}'");
 
             await using var connection = _createConnection();
             await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
             await using var command = new MySqlCommand(_scripts.GetCheckpoint, connection);
             command.Parameters.Add(new MySqlParameter("@CheckpointId", MySqlDbType.String, 500)
             {
-                Value = EventSourcing.Constants.GlobalCheckpointId
+                Value = Constants.GlobalCheckpointId
             });
 
             return await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false) as long?;
@@ -51,7 +51,7 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints
             await using var command = new MySqlCommand(_scripts.SetCheckpoint, connection);
             command.Parameters.Add(new MySqlParameter("@CheckpointId", MySqlDbType.String, 500)
             {
-                Value = EventSourcing.Constants.GlobalCheckpointId
+                Value = Constants.GlobalCheckpointId
             });
             command.Parameters.AddWithValue("@Checkpoint", checkpoint);
 
