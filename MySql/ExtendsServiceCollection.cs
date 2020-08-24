@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
 using LightestNight.System.EventSourcing.Checkpoints;
 using LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,22 +10,21 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
     public static class ExtendsServiceCollection
     {
         public static IServiceCollection AddMySqlEventStore(this IServiceCollection services,
-            Action<MySqlEventSourcingOptions>? optionsAccessor = null, params Assembly[] eventAssemblies)
+            Action<MySqlEventSourcingOptions>? optionsAccessor = null)
         {
             var mysqlOptions = new MySqlEventSourcingOptions();
             optionsAccessor?.Invoke(mysqlOptions);
             // ReSharper disable once RedundantAssignment
-            services.AddEventStore(eventSourcingOptions => eventSourcingOptions = mysqlOptions, eventAssemblies)
-                .Configure(optionsAccessor)
-                .AddSingleton<MySqlCheckpointManager>()
-                .TryAddSingleton<MySqlConnectionBuilder>();
+            services.AddEventStore(eventSourcingOptionsAccessor: eventSourcingOptions =>
+                    eventSourcingOptions = mysqlOptions)
+                .AddSingleton<MySqlCheckpointManager>();
 
             var serviceProvider = services.BuildServiceProvider();
             if (!(serviceProvider.GetService<IStreamStore>() is MySqlStreamStore))
             {
                 services.AddSingleton<IStreamStore>(sp =>
                 {
-                    var connectionString = sp.GetRequiredService<MySqlConnectionBuilder>().BuildConnectionString();
+                    var connectionString = new MySqlConnectionBuilder(mysqlOptions).BuildConnectionString();
                     var streamStore = new MySqlStreamStore(new MySqlStreamStoreSettings(connectionString));
 
                     if (!mysqlOptions.CreateSchemaIfNotExists)

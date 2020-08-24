@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using Microsoft.Extensions.Options;
 using Shouldly;
 using Xunit;
 
@@ -15,7 +14,7 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql.Tests
             var fixture = new Fixture();
             _options = fixture.Build<MySqlEventSourcingOptions>().Create();
             
-            _sut = new MySqlConnectionBuilder(Options.Create(_options));
+            _sut = new MySqlConnectionBuilder(_options);
         }
 
         [Fact]

@@ -23,6 +23,7 @@
         <InformationalVersion>1.0.0</InformationalVersion>
         <PackageIcon>icon.jpeg</PackageIcon>
         <RepositoryUrl>https://github.com/lightestnight/system.eventsourcing.sqlstreamstore.mysql</RepositoryUrl>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -36,12 +37,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="LightestNight.System.EventSourcing.SqlStreamStore" Version="2.1.1" />
-      <PackageReference Include="SqlStreamStore.MySql" Version="1.2.0-beta.8" />
+      <PackageReference Include="LightestNight.System.EventSourcing.SqlStreamStore" Version="3.2.0-alpha0004" />
+      <PackageReference Include="SqlStreamStore.MySql" Version="1.2.0" />
     </ItemGroup>
 
     <ItemGroup>
         <None Include="..\icon.jpeg">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\LICENSE">
             <Pack>True</Pack>
             <PackagePath></PackagePath>
         </None>

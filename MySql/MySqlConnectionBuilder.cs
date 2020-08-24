@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 
 namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
@@ -9,9 +7,9 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
     {
         private readonly MySqlEventSourcingOptions _options;
 
-        public MySqlConnectionBuilder(IOptions<MySqlEventSourcingOptions> options)
+        public MySqlConnectionBuilder(MySqlEventSourcingOptions options)
         {
-            _options = options.ThrowIfNull().Value;
+	        _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         public string BuildConnectionString()
@@ -71,11 +69,5 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
             
             return builder.ConnectionString;
         }
-    }
-
-    public static class ExtendsObject
-    {
-        public static T ThrowIfNull<T>(this T target, [CallerMemberName] string? memberName = default) where T : class
-            => target ?? throw new ArgumentNullException(memberName);
     }
 }
