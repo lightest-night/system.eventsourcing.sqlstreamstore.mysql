@@ -17,6 +17,7 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
             // ReSharper disable once RedundantAssignment
             services.AddEventStore(eventSourcingOptionsAccessor: eventSourcingOptions =>
                     eventSourcingOptions = mysqlOptions)
+                .AddSingleton(_ => new MySqlConnectionBuilder(mysqlOptions))
                 .AddSingleton<MySqlCheckpointManager>();
 
             var serviceProvider = services.BuildServiceProvider();
@@ -24,7 +25,7 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
             {
                 services.AddSingleton<IStreamStore>(sp =>
                 {
-                    var connectionString = new MySqlConnectionBuilder(mysqlOptions).BuildConnectionString();
+                    var connectionString = sp.GetRequiredService<MySqlConnectionBuilder>().BuildConnectionString();
                     var streamStore = new MySqlStreamStore(new MySqlStreamStoreSettings(connectionString));
 
                     if (!mysqlOptions.CreateSchemaIfNotExists)
