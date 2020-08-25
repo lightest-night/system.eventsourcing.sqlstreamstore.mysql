@@ -1,6 +1,8 @@
 ﻿using System;
+using LightestNight.System.EventSourcing.Checkpoints;
 using LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using SqlStreamStore;
 
 namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
@@ -30,17 +32,17 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
                         return streamStore;
 
                     streamStore.CreateSchemaIfNotExists().Wait();
-                    //sp.GetRequiredService<MySqlCheckpointManager>().CreateSchemaIfNotExists().Wait();
+                    sp.GetRequiredService<MySqlCheckpointManager>().CreateSchemaIfNotExists().Wait();
 
                     return streamStore;
                 });
             }
 
-            // services.TryAddSingleton<GetGlobalCheckpoint>(sp =>
-            //     sp.GetRequiredService<MySqlCheckpointManager>().GetGlobalCheckpoint);
-            //
-            // services.TryAddSingleton<SetGlobalCheckpoint>(sp =>
-            //     sp.GetRequiredService<MySqlCheckpointManager>().SetGlobalCheckpoint);
+            services.TryAddSingleton<GetGlobalCheckpoint>(sp =>
+                sp.GetRequiredService<MySqlCheckpointManager>().GetGlobalCheckpoint);
+            
+            services.TryAddSingleton<SetGlobalCheckpoint>(sp =>
+                sp.GetRequiredService<MySqlCheckpointManager>().SetGlobalCheckpoint);
 
             return services;
         }
