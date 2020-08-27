@@ -3,6 +3,10 @@
 
 The libraries for using the MySql implementation of Sql Stream Store. For more information see the Core repository's [README.md](https://github.com/lightest-night/system.eventsourcing.sqlstreamstore/blob/master/README.md "README.md")
 
+### Build Status
+![](https://github.com/lightest-night/system.eventsourcing.sqlstreamstore.mysql/workflows/CI/badge.svg)
+![](https://github.com/lightest-night/system.eventsourcing.sqlstreamstore.mysql/workflows/Release/badge.svg)
+
 #### How To Use
 ##### Registration
 * Asp.Net Standard/Core Dependency Injection
