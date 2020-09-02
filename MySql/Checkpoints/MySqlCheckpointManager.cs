@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using LightestNight.System.Data.MySql;
 using Microsoft.Extensions.Logging;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
+using MySqlConnection = MySqlConnector.MySqlConnection;
 
 namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints
 {
@@ -12,12 +14,12 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints
         private readonly Scripts.Scripts _scripts;
         private readonly ILogger<MySqlCheckpointManager> _logger;
 
-        public MySqlCheckpointManager(MySqlConnectionBuilder connectionBuilder, ILogger<MySqlCheckpointManager> logger)
+        public MySqlCheckpointManager(IMySqlConnection connection, ILogger<MySqlCheckpointManager> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _scripts = new Scripts.Scripts();
-            
-            _createConnection = () => new MySqlConnection(connectionBuilder.BuildConnectionString());
+
+            _createConnection = connection.Build;
         }
         
         public async Task<long?> GetGlobalCheckpoint(CancellationToken cancellationToken = default)
