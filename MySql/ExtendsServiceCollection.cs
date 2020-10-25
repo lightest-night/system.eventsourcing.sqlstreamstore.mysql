@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using LightestNight.System.Data.MySql;
 using LightestNight.System.EventSourcing.Checkpoints;
 using LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints;
@@ -33,16 +32,16 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
                     if (!options.CreateSchemaIfNotExists)
                         return factory;
 
-                    Task.Run(async () =>
-                    {
-                        var checkpointManager = sp.GetRequiredService<MySqlCheckpointManager>();
-                        if (!(await factory.GetStreamStore() is MySqlStreamStore streamStore))
-                            throw new InvalidOperationException(
-                                "Cannot create schema when Stream Store has not been defined.");
+                    var checkpointManager = sp.GetRequiredService<MySqlCheckpointManager>();
+                    logger.LogInformation("Creating Checkpoint Schema");
+                    checkpointManager.CreateSchemaIfNotExists().Wait();
 
-                        await Task.WhenAll(streamStore.CreateSchemaIfNotExists(),
-                            checkpointManager.CreateSchemaIfNotExists()).ConfigureAwait(false);
-                    });
+                    var streamStore = factory.GetStreamStore().Result;
+                    if (streamStore == null)
+                        throw new ArgumentNullException(nameof(streamStore));
+
+                    logger.LogInformation("Creating Stream Store Schema");
+                    ((MySqlStreamStore) streamStore).CreateSchemaIfNotExists().Wait();
 
                     return factory;
                 });
