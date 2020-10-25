@@ -22,7 +22,7 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
             services.AddMySqlData(mySqlOptionsFactory)
                 .AddEventStore(eventSourcingOptionsAccessor: o => o = options)
                 .AddSingleton<MySqlCheckpointManager>()
-                .AddTransient<IStreamStoreFactory>(sp =>
+                .AddSingleton<IStreamStoreFactory>(sp =>
                 {
                     var connection = sp.GetRequiredService<IMySqlConnection>();
                     var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger<MySqlStreamStoreFactory>();
