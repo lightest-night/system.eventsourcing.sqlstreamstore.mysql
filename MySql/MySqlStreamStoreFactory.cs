@@ -33,7 +33,7 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
 
             _logger.LogInformation("Building new StreamStore & Connection");
             _mySqlConnection = _connection.GetConnection(retries);
-            _logger.LogDebug("Connection Details: @connection", _mySqlConnection);
+            _logger.LogDebug("Connection Details: {@connection}", _mySqlConnection);
             _streamStore = new MySqlStreamStore(new MySqlStreamStoreSettings(_mySqlConnection.ConnectionString));
 
             return Task.FromResult(_streamStore);
