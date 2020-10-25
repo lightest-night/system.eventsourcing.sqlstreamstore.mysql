@@ -29,29 +29,6 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
                     return new MySqlStreamStoreFactory(connection, options, checkpointManager, logger);
                 });
 
-            //var serviceProvider = services.BuildServiceProvider();
-            // if (!(serviceProvider.GetService<IStreamStore>() is MySqlStreamStore))
-            // {
-                // services.AddSingleton<IStreamStore>(sp =>
-                // {
-                //     // var connectionString = sp.GetRequiredService<IMySqlConnection>().Build().ConnectionString;
-                //     // var streamStore = new MySqlStreamStore(new MySqlStreamStoreSettings(connectionString));
-                //     //
-                //     // if (!options.CreateSchemaIfNotExists)
-                //     //     return streamStore;
-                //     //
-                //     // streamStore.CreateSchemaIfNotExists().Wait();
-                //     // sp.GetRequiredService<MySqlCheckpointManager>().CreateSchemaIfNotExists().Wait();
-                //     //
-                //     // return streamStore;
-                //     var connection = sp.GetRequiredService<IMySqlConnection>();
-                //     var streamStoreSettings = new MySqlStreamStoreSettings(connection.GetConnection().ConnectionString)
-                //     {
-                //         ConnectionFactory = 
-                //     }
-                // });
-            // }
-
             services.TryAddSingleton<GetGlobalCheckpoint>(sp =>
                 sp.GetRequiredService<MySqlCheckpointManager>().GetGlobalCheckpoint);
 
