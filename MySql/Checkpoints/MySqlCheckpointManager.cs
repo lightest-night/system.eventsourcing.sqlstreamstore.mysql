@@ -19,9 +19,9 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _scripts = new Scripts.Scripts();
 
-            _createConnection = connection.Build;
+            _createConnection = () => connection.GetConnection();
         }
-        
+
         public async Task<long?> GetGlobalCheckpoint(CancellationToken cancellationToken = default)
         {
             _logger.LogTrace(new EventId(3, "Get Checkpoint"),
