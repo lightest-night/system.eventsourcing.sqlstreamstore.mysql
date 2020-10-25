@@ -32,9 +32,9 @@ namespace LightestNight.EventSourcing.SqlStreamStore.MySql.Tests
                 {
                     o.Server = Environment.GetEnvironmentVariable("MYSQL_SERVER") ?? "localhost";
                     o.Port = Convert.ToUInt32(Environment.GetEnvironmentVariable("MYSQL_PORT") ?? "3306");
-                    o.UserId = Environment.GetEnvironmentVariable("MYSQL_USERID") ?? "root";
-                    o.Password = Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "j3d1kn1g#t";
-                    o.Database = Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "zoopla-authentication";
+                    o.UserId = Environment.GetEnvironmentVariable("MYSQL_USERID") ?? "mysql";
+                    o.Password = Environment.GetEnvironmentVariable("MYSQL_PASSWORD") ?? "mysql";
+                    o.Database = Environment.GetEnvironmentVariable("MYSQL_DATABASE") ?? "mysql";
                     o.Pooling = false;
                     o.MinimumPoolSize = 1;
                     o.MaximumPoolSize = 1;
