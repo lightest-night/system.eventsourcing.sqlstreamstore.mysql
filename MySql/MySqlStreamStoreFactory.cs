@@ -9,11 +9,6 @@ using MySqlConnection = MySqlConnector.MySqlConnection;
 
 namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
 {
-    public interface IStreamStoreFactory
-    {
-        Task<IStreamStore> GetStreamStore(int retries = 3, CancellationToken cancellationToken = default);
-    }
-    
     public class MySqlStreamStoreFactory : IStreamStoreFactory
     {
         private static IStreamStore? _streamStore;

@@ -38,7 +38,7 @@
 
     <ItemGroup>
       <PackageReference Include="LightestNight.System.Data.MySql" Version="1.4.0-alpha0003" />
-      <PackageReference Include="LightestNight.System.EventSourcing.SqlStreamStore" Version="3.6.0" />
+      <PackageReference Include="LightestNight.System.EventSourcing.SqlStreamStore" Version="3.7.0-alpha0001" />
       <PackageReference Include="SqlStreamStore.MySql" Version="1.2.1-alpha.3" />
     </ItemGroup>
 
