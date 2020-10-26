@@ -4,7 +4,6 @@ using LightestNight.System.EventSourcing.Checkpoints;
 using LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 using SqlStreamStore;
 
 // ReSharper disable RedundantAssignment
@@ -22,35 +21,23 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
             services.AddMySqlData(mySqlOptionsFactory)
                 .AddEventStore(eventSourcingOptionsAccessor: o => o = options)
                 .AddSingleton<MySqlCheckpointManager>()
-                .AddSingleton<IStreamStoreFactory>(sp =>
-                {
-                    var connection = sp.GetRequiredService<IMySqlConnection>();
-                    var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger<MySqlStreamStoreFactory>();
-
-                    var factory = new MySqlStreamStoreFactory(connection, logger);
-
-                    if (!options.CreateSchemaIfNotExists)
-                        return factory;
-
-                    var checkpointManager = sp.GetRequiredService<MySqlCheckpointManager>();
-                    logger.LogInformation("Creating Checkpoint Schema");
-                    checkpointManager.CreateSchemaIfNotExists().Wait();
-
-                    var streamStore = factory.GetStreamStore().Result;
-                    if (streamStore == null)
-                        throw new ArgumentNullException(nameof(streamStore));
-
-                    logger.LogInformation("Creating Stream Store Schema");
-                    ((MySqlStreamStore) streamStore).CreateSchemaIfNotExists().Wait();
-
-                    return factory;
-                });
+                .AddSingleton<IStreamStoreFactory, MySqlStreamStoreFactory>();
 
             services.TryAddSingleton<GetGlobalCheckpoint>(sp =>
                 sp.GetRequiredService<MySqlCheckpointManager>().GetGlobalCheckpoint);
 
             services.TryAddSingleton<SetGlobalCheckpoint>(sp =>
                 sp.GetRequiredService<MySqlCheckpointManager>().SetGlobalCheckpoint);
+
+            if (!options.CreateSchemaIfNotExists) 
+                return services;
+            
+            var serviceProvider = services.BuildServiceProvider();
+            var streamStoreFactory = serviceProvider.GetRequiredService<IStreamStoreFactory>();
+            var checkpointManager = serviceProvider.GetRequiredService<MySqlCheckpointManager>();
+
+            ((MySqlStreamStore) streamStoreFactory.GetStreamStore().Result).CreateSchemaIfNotExists().Wait();
+            checkpointManager.CreateSchemaIfNotExists().Wait();
 
             return services;
         }
