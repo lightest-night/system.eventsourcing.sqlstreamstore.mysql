@@ -10,7 +10,6 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
 {
     public class MySqlStreamStoreFactory : IStreamStoreFactory
     {
-        private static IStreamStore? _streamStore;
         private static MySqlConnection? _mySqlConnection;
         
         private readonly IMySqlConnection _connection;
@@ -24,18 +23,14 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
 
         public Task<IStreamStore> GetStreamStore(int retries = 3, CancellationToken cancellationToken = default)
         {
-            if (_streamStore != null && _mySqlConnection != null &&
-                _connection.ValidateConnection(_mySqlConnection, out _))
+            if (_mySqlConnection == null || !_connection.ValidateConnection(_mySqlConnection, out _))
             {
-                _logger.LogInformation("Using existing StreamStore & Connection...");
-                return Task.FromResult(_streamStore);
+                _logger.LogInformation("Getting a new Connection");
+                _mySqlConnection = _connection.GetConnection(retries);
             }
 
-            _logger.LogInformation("Building new StreamStore & Connection");
-            _mySqlConnection = _connection.GetConnection(retries);
-            _streamStore = new MySqlStreamStore(new MySqlStreamStoreSettings(_mySqlConnection.ConnectionString));
-
-            return Task.FromResult(_streamStore);
+            var streamStore = new MySqlStreamStore(new MySqlStreamStoreSettings(_mySqlConnection.ConnectionString));
+            return Task.FromResult((IStreamStore) streamStore);
         }
     }
 }
