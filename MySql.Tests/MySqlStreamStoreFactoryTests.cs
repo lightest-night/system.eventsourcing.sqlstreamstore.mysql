@@ -42,9 +42,9 @@ namespace LightestNight.EventSourcing.SqlStreamStore.MySql.Tests
                 })
                 .Create();
 
-            _sut = new MySqlStreamStoreFactory(new MySqlConnection(() => options),
+            _sut = new MySqlStreamStoreFactory(new MySqlConnection(() => options, NullLogger<MySqlConnection>.Instance),
                 new NullLogger<MySqlStreamStoreFactory>());
-            _checkpointManager = new MySqlCheckpointManager(new MySqlConnection(() => options),
+            _checkpointManager = new MySqlCheckpointManager(new MySqlConnection(() => options, NullLogger<MySqlConnection>.Instance),
                 new NullLogger<MySqlCheckpointManager>());
         }
 
