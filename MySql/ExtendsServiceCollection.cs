@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using LightestNight.System.Data.MySql;
 using LightestNight.System.EventSourcing.Checkpoints;
 using LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints;
