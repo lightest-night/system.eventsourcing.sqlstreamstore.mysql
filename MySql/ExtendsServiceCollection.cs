@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using LightestNight.System.Data.MySql;
 using LightestNight.System.EventSourcing.Checkpoints;
 using LightestNight.System.EventSourcing.SqlStreamStore.MySql.Checkpoints;
@@ -34,8 +33,17 @@ namespace LightestNight.System.EventSourcing.SqlStreamStore.MySql
                     var checkpointManager = sp.GetRequiredService<MySqlCheckpointManager>();
                     var streamStore = (MySqlStreamStore) streamStoreFactory.GetStreamStore().Result;
 
-                    checkpointManager.CreateSchemaIfNotExists().Wait();
-                    streamStore.CreateSchemaIfNotExists().Wait();
+                    var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger("IStreamStoreFactory creator");
+                    try
+                    {
+                        checkpointManager.CreateSchemaIfNotExists().Wait();
+                        streamStore.CreateSchemaIfNotExists().Wait();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "Something failed when creating the IStreamStoreFactory");
+                        throw;
+                    }
 
                     return streamStoreFactory;
                 });
